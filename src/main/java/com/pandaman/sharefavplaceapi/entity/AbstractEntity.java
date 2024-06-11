@@ -3,13 +3,16 @@ package com.pandaman.sharefavplaceapi.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
-
+import java.io.Serializable;
 import java.util.Date;
+
+
 /**
  * DB共通Entity
  */
@@ -22,6 +25,11 @@ public abstract class AbstractEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = new Date();
+    }
 
     /** 更新日時 */
     @Temporal(TemporalType.TIMESTAMP)
